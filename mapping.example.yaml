@@ -1,0 +1,21 @@
+# mapping.example.yaml — Snyk ADO → GitHub migration mapping config.
+#
+# Copy to mapping.yaml and edit. Source ADO targets and destination GitHub
+# targets are expected to live in the same Snyk org.
+
+# URL derivation rule. Applied to every ADO target URL that doesn't have
+# an explicit override below. Placeholders {name} are extracted from the
+# `from` pattern and substituted into `to`. `vars` provides values for
+# placeholders that don't come from the source URL itself (e.g. the
+# destination GitHub org name).
+url_derivation:
+  from: "https://dev.azure.com/{account}/{project}/_git/{repo}"
+  to:   "https://github.com/{gh_org}/{repo}"
+  vars:
+    gh_org: your-github-org
+
+# Per-repo overrides. Use for repos that were renamed during the migration
+# (the derivation rule wouldn't produce the right URL for them).
+overrides:
+  - source_url:      "https://dev.azure.com/example-account/example-project/_git/old-name"
+    destination_url: "https://github.com/your-github-org/new-name"
